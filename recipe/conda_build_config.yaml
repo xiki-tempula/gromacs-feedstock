@@ -1,3 +1,11 @@
 mpi:
   - openmpi
   - nompi
+  - nompi
+double:
+  - no
+  - no
+  - yes
+zip_keys:
+  - mpi
+  - double
