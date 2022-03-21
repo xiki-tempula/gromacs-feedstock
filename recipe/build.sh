@@ -65,12 +65,17 @@ done
 
 
 if [ "${mpi}" = 'nompi' ] ; then
-    gmx='gmx'
+    if [ "${double}" = 'no' ] ; then
+        gmx='gmx'
+    else
+        gmx='gmx_d'
+    fi
 else
-    gmx='gmx_mpi'
-fi
-if [ "${double}" = 'yes' ] ; then
-    gmx='gmx_d'
+    if [ "${double}" = 'no' ] ; then
+        gmx='gmx_mpi'
+    else
+        gmx='gmx_mpi_d'
+    fi
 fi
 
 mkdir -p "${PREFIX}/etc/conda/activate.d"
