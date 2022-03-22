@@ -38,6 +38,7 @@ for ARCH in SSE2 AVX_256 AVX2_256; do
   fi
   if [[ "${double}" == "yes" ]]; then
       cmake_args+=(-DGMX_DOUBLE=ON)
+      cmake_args+=(-DGMX_GPU=OFF)
   else
       cmake_args+=(-DGMX_DOUBLE=OFF)
   fi
