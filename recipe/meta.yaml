@@ -3,6 +3,8 @@
 # https://manual.gromacs.org/documentation/
 {% set name = "gromacs" %}
 {% set version = "2022" %}
+{% set build = 1 %}
+{% set build = build + 100 %}  # [mpi == 'nompi' and double == 'no']
 
 package:
   name: {{ name|lower }}
@@ -13,10 +15,12 @@ source:
   sha256: fad60d606c02e6164018692c6c9f2c159a9130c2bf32e8c5f4f1b6ba2dda2b68
 
 build:
-  number: 0
+  number: {{ build }}
   string: >-
-    nompi_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi']
-    mpi_{{ mpi }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi']
+    nompi_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi' and double == 'no']
+    mpi_{{ mpi }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi' and double == 'no']
+    nompi_dblpres_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi' and double == 'yes']
+    mpi_{{ mpi }}_dblpres_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi' and double == 'yes']
   skip: True  # [win]
 
 requirements:
