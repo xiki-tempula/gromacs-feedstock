@@ -137,7 +137,7 @@ Note that `gromacs` versions 2022 onwards are released on `conda-forge`. Earlier
 
 A number of different builds for each version of `gromacs` are available, identified by the build string:
 - No MPI, mixed precision (default): `nompi_XXXXXXX_10X`
-- MPI (OpenMP), mixed precision: `mpi_openmpi_XXXXXXX_X`
+- MPI (OpenMPI), mixed precision: `mpi_openmpi_XXXXXXX_X`
 - No MPI, double precision: `nompi_dblprec_XXXXXXXX_X`
 
 Priority is given to the No MPI, mixed precision build. To install a different version the build string must be specified, e.g.:
