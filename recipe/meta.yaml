@@ -3,6 +3,8 @@
 # https://manual.gromacs.org/documentation/
 {% set name = "gromacs" %}
 {% set version = "2022" %}
+{% set build = 1 %}
+{% set build = build + 100 %}  # [mpi == 'nompi' and double == 'no']
 
 package:
   name: {{ name|lower }}
@@ -13,10 +15,12 @@ source:
   sha256: fad60d606c02e6164018692c6c9f2c159a9130c2bf32e8c5f4f1b6ba2dda2b68
 
 build:
-  number: 0
+  number: {{ build }}
   string: >-
-    nompi_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi']
-    mpi_{{ mpi }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi']
+    nompi_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi' and double == 'no']
+    mpi_{{ mpi }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi' and double == 'no']
+    nompi_dblprec_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi' and double == 'yes']
+    mpi_{{ mpi }}_dblprec_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi' and double == 'yes']
   skip: True  # [win]
 
 requirements:
@@ -45,11 +49,13 @@ requirements:
 
 test:
   commands:
-    - gmx -version  # [mpi == 'nompi']
+    - gmx -version  # [mpi == 'nompi' and double == 'no']
+    - gmx_d -version  # [mpi == 'nompi' and double == 'yes']
     - export OMPI_MCA_plm=isolated  # [mpi == "openmpi" and linux]
     - export OMPI_MCA_btl_vader_single_copy_mechanism=none  # [mpi == "openmpi" and linux]
     - export OMPI_MCA_rmaps_base_oversubscribe=yes  # [mpi == "openmpi" and linux]
-    - gmx_mpi -version  # [mpi != 'nompi']
+    - gmx_mpi -version  # [mpi != 'nompi' and double == 'no']
+    - gmx_mpi_d -version  # [mpi != 'nompi' and double == 'yes']:
 
 about:
   home: https://www.gromacs.org/

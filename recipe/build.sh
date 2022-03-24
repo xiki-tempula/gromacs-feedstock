@@ -36,6 +36,12 @@ for ARCH in SSE2 AVX_256 AVX2_256; do
   else
       cmake_args+=(-DGMX_MPI=ON)
   fi
+  if [[ "${double}" == "yes" ]]; then
+      cmake_args+=(-DGMX_DOUBLE=ON)
+      cmake_args+=(-DGMX_GPU=OFF)
+  else
+      cmake_args+=(-DGMX_DOUBLE=OFF)
+  fi
   cmake .. "${cmake_args[@]}"
   make -j "${CPU_COUNT}"
   make install
@@ -60,9 +66,17 @@ done
 
 
 if [ "${mpi}" = 'nompi' ] ; then
-    gmx='gmx'
+    if [ "${double}" = 'no' ] ; then
+        gmx='gmx'
+    else
+        gmx='gmx_d'
+    fi
 else
-    gmx='gmx_mpi'
+    if [ "${double}" = 'no' ] ; then
+        gmx='gmx_mpi'
+    else
+        gmx='gmx_mpi_d'
+    fi
 fi
 
 mkdir -p "${PREFIX}/etc/conda/activate.d"
