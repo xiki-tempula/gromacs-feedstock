@@ -3,8 +3,8 @@
 # https://manual.gromacs.org/documentation/
 {% set name = "gromacs" %}
 {% set version = "2022.1" %}
-{% set build = 0 %}
-{% set build = build + 100 %}  # [mpi == 'nompi' and double == 'no']
+{% set build = 1 %}
+{% set build = build + 100 %}  # [mpi == 'nompi' and double == 'no' and cuda_compiler_version == "None"]
 
 package:
   name: {{ name|lower }}
@@ -17,35 +17,41 @@ source:
 build:
   number: {{ build }}
   string: >-
-    nompi_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi' and double == 'no']
-    mpi_{{ mpi }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi' and double == 'no']
-    nompi_dblprec_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi' and double == 'yes']
-    mpi_{{ mpi }}_dblprec_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi' and double == 'yes']
-  skip: True  # [win]
+    nompi_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi' and double == 'no' and cuda_compiler_version == "None"]
+    mpi_{{ mpi }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi' and double == 'no' and cuda_compiler_version == "None"]
+    nompi_dblprec_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi' and double == 'yes' and cuda_compiler_version == "None"]
+    mpi_{{ mpi }}_dblprec_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi' and double == 'yes' and cuda_compiler_version == "None"]
+    nompi_cuda_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi' and double == 'no' and cuda_compiler_version != "None"]
+  skip: True  # [win or cuda_compiler_version not in ("11.2", "None")]
+  skip: True  # [mpi == "openmpi" and cuda_compiler_version != "None"]
+  skip: True  # [double == "yes" and cuda_compiler_version != "None"]
 
 requirements:
   build:
     - make
     - {{ compiler('cxx') }}
+    - {{ compiler('cuda') }}  # [cuda_compiler_version != "None"]
     - cmake >3.13
     - pocl
     - python >3.5
     - perl
     - libgomp  # [linux]
     - llvm-openmp  # [osx]
+    - coreutils  # [cuda_compiler_version != "None"]
   host:
-    - ocl-icd  # [linux]
+    - ocl-icd  # [linux and cuda_compiler_version == "None"]
     - khronos-opencl-icd-loader  # [osx]
     - libhwloc 2.*
     - fftw
     - {{ mpi }}  # [mpi != 'nompi']
   run:
-    - ocl-icd  # [linux]
+    - ocl-icd  # [linux and cuda_compiler_version == "None"]
     - khronos-opencl-icd-loader  # [osx]
     - ocl_icd_wrapper_apple  # [osx]
     - fftw
     - libhwloc 2.*
     - {{ mpi }}  # [mpi != 'nompi']
+    - __cuda  # [not osx and cuda_compiler_version != "None"]
 
 test:
   commands:
