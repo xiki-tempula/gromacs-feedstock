@@ -2,7 +2,7 @@
 # For latest release, see
 # https://manual.gromacs.org/documentation/
 {% set name = "gromacs" %}
-{% set version = "2022.2" %}
+{% set version = "2022.3" %}
 {% set build = 0 %}
 {% set build = build + 100 %}  # [mpi == 'nompi' and double == 'no' and cuda_compiler_version == "None"]
 
@@ -12,15 +12,15 @@ package:
 
 source:
   url: https://ftp.gromacs.org/gromacs/gromacs-{{ version }}.tar.gz
-  sha256: 656404f884d2fa2244c97d2a5b92af148d0dbea94ad13004724b3fcbf45e01bf
+  sha256: 14cfb130ddaf8f759a3af643c04f5a0d0d32b09bc3448b16afa5b617f5e35dae
 
 build:
   number: {{ build }}
   string: >-
-    nompi_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi' and double == 'no' and cuda_compiler_version == "None"] 
-    mpi_{{ mpi }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi' and double == 'no' and cuda_compiler_version == "None"] 
+    nompi_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi' and double == 'no' and cuda_compiler_version == "None"]
+    mpi_{{ mpi }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi' and double == 'no' and cuda_compiler_version == "None"]
     nompi_dblprec_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi' and double == 'yes' and cuda_compiler_version == "None"]
-    mpi_{{ mpi }}_dblprec_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi' and double == 'yes' and cuda_compiler_version == "None"] 
+    mpi_{{ mpi }}_dblprec_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi' and double == 'yes' and cuda_compiler_version == "None"]
     nompi_cuda_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi' and double == 'no' and cuda_compiler_version != "None"]
   skip: true  # [win or cuda_compiler_version not in ("11.2", "None")]
   skip: true  # [mpi == "openmpi" and cuda_compiler_version != "None"]

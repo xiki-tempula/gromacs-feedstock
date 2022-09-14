@@ -26,6 +26,7 @@ for ARCH in SSE2 AVX_256 AVX2_256; do
     -DCMAKE_INSTALL_BINDIR="bin.${ARCH}"
     -DCMAKE_INSTALL_LIBDIR="lib.${ARCH}"
     -DGMX_VERSION_STRING_OF_FORK="conda-forge"
+    -DGMX_INSTALL_LEGACY_API=ON
   )
   # OpenCL header on Mac is not recognized by GROMACS
   if [[ "$(uname)" != 'Darwin' && "${double}" == "no" ]] ; then
