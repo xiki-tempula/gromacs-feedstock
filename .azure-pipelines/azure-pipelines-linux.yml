@@ -28,26 +28,26 @@ jobs:
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cuda:11.2
         SHORT_CONFIG: linux_64_cuda_compiler_version11.2c_h88e194ffa3
-      linux_64_cuda_compiler_versionNonecxx_compiler_version10doublenompinompi:
-        CONFIG: linux_64_cuda_compiler_versionNonecxx_compiler_version10doublenompinompi
+      linux_64_cuda_compiler_versionNonecxx_compiler_version11doublenompinompi:
+        CONFIG: linux_64_cuda_compiler_versionNonecxx_compiler_version11doublenompinompi
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-        SHORT_CONFIG: linux_64_cuda_compiler_versionNonec_he551ec72ad
-      linux_64_cuda_compiler_versionNonecxx_compiler_version10doublenompiopenmpi:
-        CONFIG: linux_64_cuda_compiler_versionNonecxx_compiler_version10doublenompiopenmpi
+        SHORT_CONFIG: linux_64_cuda_compiler_versionNonec_h794f99b73d
+      linux_64_cuda_compiler_versionNonecxx_compiler_version11doublenompiopenmpi:
+        CONFIG: linux_64_cuda_compiler_versionNonecxx_compiler_version11doublenompiopenmpi
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-        SHORT_CONFIG: linux_64_cuda_compiler_versionNonec_h99b73411b1
-      linux_64_cuda_compiler_versionNonecxx_compiler_version10doubleyesmpinompi:
-        CONFIG: linux_64_cuda_compiler_versionNonecxx_compiler_version10doubleyesmpinompi
+        SHORT_CONFIG: linux_64_cuda_compiler_versionNonec_h0db796817d
+      linux_64_cuda_compiler_versionNonecxx_compiler_version11doubleyesmpinompi:
+        CONFIG: linux_64_cuda_compiler_versionNonecxx_compiler_version11doubleyesmpinompi
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-        SHORT_CONFIG: linux_64_cuda_compiler_versionNonec_h39dd7fdc5f
-      linux_64_cuda_compiler_versionNonecxx_compiler_version10doubleyesmpiopenmpi:
-        CONFIG: linux_64_cuda_compiler_versionNonecxx_compiler_version10doubleyesmpiopenmpi
+        SHORT_CONFIG: linux_64_cuda_compiler_versionNonec_h2be769a4ea
+      linux_64_cuda_compiler_versionNonecxx_compiler_version11doubleyesmpiopenmpi:
+        CONFIG: linux_64_cuda_compiler_versionNonecxx_compiler_version11doubleyesmpiopenmpi
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-        SHORT_CONFIG: linux_64_cuda_compiler_versionNonec_h1f244502c5
+        SHORT_CONFIG: linux_64_cuda_compiler_versionNonec_h1985520da1
   timeoutInMinutes: 360
 
   steps:
