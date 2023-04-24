@@ -1,0 +1,30 @@
+From 2ad9c0a4835aed9ee1a615d7eb64a1e55d946f0f Mon Sep 17 00:00:00 2001
+From: Mark Abraham <mark.j.abraham@gmail.com>
+Date: Mon, 24 Apr 2023 11:59:00 +0200
+Subject: [PATCH] Remove potentially confusing lines from FindFilesystem.cmake
+
+---
+ src/external/cmake/FindFilesystem.cmake | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/external/cmake/FindFilesystem.cmake b/src/external/cmake/FindFilesystem.cmake
+index a152e52293..3bd39619ef 100755
+--- a/src/external/cmake/FindFilesystem.cmake
++++ b/src/external/cmake/FindFilesystem.cmake
+@@ -88,10 +88,10 @@ Using `find_package(Filesystem)` with no component arguments:
+ 
+ .. code-block:: cmake
+ 
+-    find_package(Filesystem REQUIRED)
++#    find_package(Filesystem REQUIRED)
+ 
+-    add_executable(my-program main.cpp)
+-    target_link_libraries(my-program PRIVATE std::filesystem)
++#    add_executable(my-program main.cpp)
++#    target_link_libraries(my-program PRIVATE std::filesystem)
+ 
+ 
+ #]=======================================================================]
+-- 
+2.25.1
+
