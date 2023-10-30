@@ -1,0 +1,44 @@
+image: docker:dind
+
+definitions:
+  scripts:
+    - script: &.install-aws |
+        apk add aws-cli bash;
+    - script: &.aws-web-identity-token |
+        echo "unset static credentials to use dynamic credentials via oidc provider"
+        unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY
+        export AWS_REGION=eu-west-1
+        export AWS_WEB_IDENTITY_TOKEN_FILE=$(pwd)/web-identity-token
+        export AWS_ROLE_SESSION_NAME=${BITBUCKET_REPO_SLUG}-$(date +%Y-%m-%d-%H%M%S)
+        echo $BITBUCKET_STEP_OIDC_TOKEN > $(pwd)/web-identity-token
+    - script: &.aws-s3-eng-dev-role |
+        export AWS_ROLE_ARN=arn:aws:iam::486666591348:role/terraform-iam-role
+
+    - script: &.build-conda-package |
+        python build-locally.py 'linux_64_numpy1.22python3.10.____cpython'
+
+
+  services:
+    docker:
+      memory: 14336
+      image: docker:dind
+
+
+pipelines:
+  default:
+    - step:
+        name: Build AMBER Conda Package
+        runs-on:
+          - 'self.hosted'
+          - 'wr.large'
+        size: 4x
+        oidc: true
+        services:
+          - docker
+        script:
+          - *.install-aws
+          - *.aws-web-identity-token
+          - *.aws-s3-eng-dev-role
+          - *.build-conda-package
+
+
