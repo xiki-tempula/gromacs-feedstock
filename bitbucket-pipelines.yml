@@ -15,7 +15,7 @@ definitions:
         export AWS_ROLE_ARN=arn:aws:iam::486666591348:role/terraform-iam-role
 
     - script: &.build-conda-package |
-        python build-locally.py 'linux_64_numpy1.22python3.10.____cpython'
+        python build-locally.py 'linux_64_cuda_compiler_versionNonecxx_compiler_version12doublenompinompi'
 
 
   services:
