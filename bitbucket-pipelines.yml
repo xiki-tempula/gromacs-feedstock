@@ -17,28 +17,56 @@ definitions:
     - script: &.build-conda-package |
         python build-locally.py 'linux_64_cuda_compiler_versionNonecxx_compiler_version12doublenompinompi'
 
+    - script: &.remove-old-build |
+        # Remove the old package first
+        file=$(find build_artifacts/linux-64 -name "*.conda")
+        CONDA_NAME=$(basename "$file")
+        aws s3 rm s3://exs-conda-packages/linux-64/$CONDA_NAME
+        # Wait 2 minutes for the conda index to update.
+        sleep 120
+
 
   services:
     docker:
       memory: 14336
       image: docker:dind
 
+steps:
+  - step: &build-package
+      name: Build gromacs Conda Package
+      runs-on:
+        - 'self.hosted'
+        - 'wr.large'
+      size: 4x
+      oidc: true
+      services:
+        - docker
+      script:
+        - *.install-aws
+        - *.aws-web-identity-token
+        - *.aws-s3-eng-dev-role
+        - *.build-conda-package
+      artifacts:
+        download: false # avoid loading earlier artifacts as not needed
+        paths:
+          - build_artifacts/linux-64/*.conda
+
+  - step: &deploy-package
+      # depends on artifacts: dist/
+      name: Upload Python package Exscientia conda.exsapps.com server
+      # deployment: conda # <-- configure on bitbucket if you want deployment tracking
+      image: amazon/aws-cli:latest
+      oidc: true
+      script:
+        - *.aws-web-identity-token
+        - *.aws-s3-eng-dev-role
+        - *.remove-old-build
+        - aws s3 cp $(realpath build_artifacts/linux-64/*.conda) s3://exs-conda-packages/linux-64/
 
 pipelines:
   default:
-    - step:
-        name: Build AMBER Conda Package
-        runs-on:
-          - 'self.hosted'
-          - 'wr.large'
-        size: 4x
-        oidc: true
-        services:
-          - docker
-        script:
-          - *.install-aws
-          - *.aws-web-identity-token
-          - *.aws-s3-eng-dev-role
-          - *.build-conda-package
+    - step: *build-package
+    - step: *deploy-package
+
 
 
