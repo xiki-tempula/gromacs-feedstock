@@ -3,13 +3,12 @@
 mkdir build
 cd build
 
-uname=$(uname -m)
-
 # Temporary debugging output checking how we're doing cross-compiling
-echo $uname
-echo $OSTYPE
+uname
+uname -m
+echo $HOST
 
-if [[ "$uname" == "arm" && "$OSTYPE" == "darwin"* ]];
+if [[ "$HOST" == "arm64-apple-darwin"* ]];
 then
     # Assume ARM Mac
     simdflavors=(ARM_NEON_ASIMD)
