@@ -3,8 +3,22 @@
 mkdir build
 cd build
 
+uname=$(uname -m)
+
+# Temporary debugging output checking how we're doing cross-compiling
+echo $uname
+echo $OSTYPE
+
+if [[ "$uname" == "arm" && "$OSTYPE" == "darwin"* ]];
+then
+    # Assume ARM Mac
+    simdflavors=(ARM_NEON_ASIMD)
+else
+    # Assume x86
+    simdflavors=(SSE2 AVX_256 AVX2_256)
+
 ## See INSTALL of gromacs distro
-for ARCH in SSE2 AVX_256 AVX2_256; do
+for simdflavor in "${simdflavors[@]}" ; do
   cmake_args=(
     -DSHARED_LIBS_DEFAULT=ON
     -DBUILD_SHARED_LIBS=ON
@@ -15,12 +29,12 @@ for ARCH in SSE2 AVX_256 AVX2_256; do
     # -DREGRESSIONTEST_DOWNLOAD=ON
     -DCMAKE_PREFIX_PATH="${PREFIX}"
     -DCMAKE_INSTALL_PREFIX="${PREFIX}"
-    -DGMX_SIMD="${ARCH}"
-    -DCMAKE_INSTALL_BINDIR="bin.${ARCH}"
-    -DCMAKE_INSTALL_LIBDIR="lib.${ARCH}"
+    -DGMX_SIMD="${simdflavor}"
+    -DCMAKE_INSTALL_BINDIR="bin.${simdflavor}"
+    -DCMAKE_INSTALL_LIBDIR="lib.${simdflavor}"
     -DGMX_VERSION_STRING_OF_FORK="conda-forge"
-    -DGMX_INSTALL_LEGACY_API=ON"
-    -DGMX_USE_RDTSCP=OFF"
+    -DGMX_INSTALL_LEGACY_API=ON
+    -DGMX_USE_RDTSCP=OFF
   )
   # OpenCL header on Mac is not recognized by GROMACS
   if [[ "$(uname)" != 'Darwin' && "${double}" == "no" ]] ; then
@@ -153,18 +167,25 @@ esac
 #! /bin/bash
 
 function _gromacs_bin_dir() {
-  local arch
-  arch='SSE2'
-  case \$( ${hardware_info_command} ) in
-    *\ avx2\ * | *avx2_0*)
-      test -d "${PREFIX}/bin.AVX2_256" && \
-        arch='AVX2_256'
-    ;;
-    *\ avx\ * | *avx1_0*)
-      test -d "${PREFIX}/bin.AVX_256" && \
-        arch='AVX_256'
-  esac
-  printf '%s' "${PREFIX}/bin.\${arch}"
+  local simdflavor
+  local uname=\$(uname -m)
+  if [[ "\$uname" == "arm" ]]; then
+    # Assume ARM Mac
+    test -d "${PREFIX}/bin.ARM_NEON_ASIMD" && \
+      simdflavor='ARM_NEON_ASIMD'
+  else
+    simdflavor='SSE2'
+    case \$( ${hardware_info_command} ) in
+      *\ avx2\ * | *avx2_0*)
+        test -d "${PREFIX}/bin.AVX2_256" && \
+          simdflavor='AVX2_256'
+      ;;
+      *\ avx\ * | *avx1_0*)
+        test -d "${PREFIX}/bin.AVX_256" && \
+          simdflavor='AVX_256'
+    esac
+  fi
+  printf '%s' "${PREFIX}/bin.\${simdflavor}"
 }
 
 EOF
@@ -182,23 +203,29 @@ EOF
 { cat <<EOF
 #! /bin/tcsh
 
-setenv hwlist `${hardware_info_command}`
+setenv uname `uname -m`
+if ( `uname -m` == "arm" && -d "${PREFIX}/bin.ARM_NEON_ASIMD" ) then ) then
+   setenv simdflavor ARM_NEON_ASIMD
+else
 
-if ( `echo \$hwlist | grep -c 'avx512f'` > 0 && -d "${PREFIX}/bin.AVX_512" && `"${PREFIX}/bin.AVX_512/identifyavx512fmaunits" | grep -c 2` > 0 ) then
-    setenv arch AVX_512
-else 
-    if ( `echo \$hwlist | grep -c avx2` > 0 && -d "${PREFIX}/bin.AVX2_256" ) then
-        setenv arch AVX2_256
+    setenv hwlist `${hardware_info_command}`
+
+    if ( `echo \$hwlist | grep -c 'avx512f'` > 0 && -d "${PREFIX}/bin.AVX_512" && `"${PREFIX}/bin.AVX_512/identifyavx512fmaunits" | grep -c 2` > 0 ) then
+        setenv simdflavor AVX_512
     else 
-        if ( `echo \$hwlist | grep -c avx` > 0 && -d "${PREFIX}/bin.AVX_256" ) then
-            setenv arch AVX_256 
+        if ( `echo \$hwlist | grep -c avx2` > 0 && -d "${PREFIX}/bin.AVX2_256" ) then
+            setenv simdflavor AVX2_256
         else
-            setenv arch SSE2
+            if ( `echo \$hwlist | grep -c avx` > 0 && -d "${PREFIX}/bin.AVX_256" ) then
+                setenv simdflavor AVX_256
+            else
+                setenv simdflavor SSE2
+            endif
         endif
     endif
 endif
 
-source "${PREFIX}/bin.\$arch/GMXRC"
+source "${PREFIX}/bin.\$simdflavor/GMXRC"
 
 EOF
 } > "${PREFIX}/etc/conda/activate.d/gromacs_activate.csh"
