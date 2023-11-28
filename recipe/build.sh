@@ -3,11 +3,6 @@
 mkdir build
 cd build
 
-# Temporary debugging output checking how we're doing cross-compiling
-uname
-uname -m
-echo $HOST
-
 if [[ "$HOST" == "arm64-apple-darwin"* ]];
 then
     # Assume ARM Mac
