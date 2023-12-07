@@ -3,7 +3,7 @@
 # https://manual.gromacs.org/documentation/
 {% set name = "gromacs" %}
 {% set version = "2023.3" %}
-{% set build = 0 %}
+{% set build = 4 %}
 {% set build = build + 100 %}  # [mpi == 'nompi' and double == 'no' and cuda_compiler_version == "None"]
 
 package:
@@ -23,7 +23,7 @@ build:
     mpi_{{ mpi }}_dblprec_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi != 'nompi' and double == 'yes' and cuda_compiler_version == "None"]
     nompi_cuda_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [mpi == 'nompi' and double == 'no' and cuda_compiler_version != "None"]
   skip: true  # [win or cuda_compiler_version not in ("11.2", "None")]
-  skip: true  # [mpi == "openmpi" and cuda_compiler_version != "None"]
+  skip: true  # [mpi == "openmpi" and arm64]
   skip: true  # [double == "yes" and cuda_compiler_version != "None"]
 
 requirements:
