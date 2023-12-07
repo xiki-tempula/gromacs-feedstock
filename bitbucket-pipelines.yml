@@ -15,7 +15,7 @@ definitions:
         export AWS_ROLE_ARN=arn:aws:iam::486666591348:role/terraform-iam-role
 
     - script: &.build-conda-package |
-        python build-locally.py 'linux_64_cuda_compiler_versionNonecxx_compiler_version12doublenompinompi'
+        python build-locally.py 'linux_64_cuda_compiler_version11.2cxx_compiler_version10doublenompiopenmpi'
 
     - script: &.remove-old-build |
         # Remove the old package first
@@ -24,7 +24,6 @@ definitions:
         aws s3 rm s3://exs-conda-packages/linux-64/$CONDA_NAME
         # Wait 2 minutes for the conda index to update.
         sleep 120
-
 
   services:
     docker:
@@ -35,8 +34,8 @@ steps:
   - step: &build-package
       name: Build gromacs Conda Package
       runs-on:
-        - 'self.hosted'
-        - 'wr.large'
+        - "self.hosted"
+        - "wr.large"
       size: 4x
       oidc: true
       services:
@@ -51,8 +50,7 @@ steps:
         paths:
           - build_artifacts/linux-64/*.conda
 
-  - step: &deploy-package
-      # depends on artifacts: dist/
+  - step: &deploy-package # depends on artifacts: dist/
       name: Upload Python package Exscientia conda.exsapps.com server
       # deployment: conda # <-- configure on bitbucket if you want deployment tracking
       image: amazon/aws-cli:latest
@@ -67,6 +65,3 @@ pipelines:
   default:
     - step: *build-package
     - step: *deploy-package
-
-
-
