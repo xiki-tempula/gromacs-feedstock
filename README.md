@@ -11,7 +11,7 @@ Summary: GROMACS is a versatile package to perform molecular dynamics.
 
 Development: https://gitlab.com/gromacs/gromacs
 
-Documentation: https://www.gromacs.org
+Documentation: https://manual.gromacs.org/
 
 GROMACS is a versatile package to perform molecular dynamics, i.e.
 simulate the Newtonian equations of motion for systems with hundreds
