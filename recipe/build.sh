@@ -199,7 +199,7 @@ EOF
 #! /bin/tcsh
 
 setenv uname `uname -m`
-if ( `uname -m` == "arm" && -d "${PREFIX}/bin.ARM_NEON_ASIMD" ) then ) then
+if ( `uname -m` == "arm64" && -d "${PREFIX}/bin.ARM_NEON_ASIMD" ) then ) then
    setenv simdflavor ARM_NEON_ASIMD
 else
 
