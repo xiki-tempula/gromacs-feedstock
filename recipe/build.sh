@@ -199,7 +199,7 @@ EOF
 #! /bin/tcsh
 
 setenv uname `uname -m`
-if ( `uname -m` == "arm*" && -d "${PREFIX}/bin.ARM_NEON_ASIMD" ) then ) then
+if ( `uname -m` == "arm*" && -d "${PREFIX}/bin.ARM_NEON_ASIMD" ) then
    setenv simdflavor ARM_NEON_ASIMD
 else
 
@@ -220,7 +220,7 @@ else
     endif
 endif
 
-source "${PREFIX}/bin.\$simdflavor/GMXRC"
+source "${PREFIX}/bin.${simdflavor}/GMXRC"
 
 EOF
 } > "${PREFIX}/etc/conda/activate.d/gromacs_activate.csh"
