@@ -220,7 +220,7 @@ else
     endif
 endif
 
-source "${PREFIX}/bin.\${simdflavor}/GMXRC"
+source "${PREFIX}/bin.\$simdflavor/GMXRC"
 
 EOF
 } > "${PREFIX}/etc/conda/activate.d/gromacs_activate.csh"
