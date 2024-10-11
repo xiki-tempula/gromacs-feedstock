@@ -2,8 +2,8 @@
 # For latest release, see
 # https://manual.gromacs.org/documentation/
 {% set name = "gromacs" %}
-{% set version = "2024.2" %}
-{% set build = 2 %}
+{% set version = "2024.3" %}
+{% set build = 1 %}
 {% set build = build + 100 %}  # [mpi == 'nompi' and double == 'no' and cuda_compiler_version == "None"]
 
 package:
@@ -12,7 +12,7 @@ package:
 
 source:
   url: https://ftp.gromacs.org/gromacs/gromacs-{{ version }}.tar.gz
-  sha256: 802a7e335f2e895770f57b159e4ec368ebb0ff2ce6daccf706c6e8025c36852b
+  sha256: bbda056ee59390be7d58d84c13a9ec0d4e3635617adf2eb747034922cba1f029
 
 build:
   number: {{ build }}
@@ -26,12 +26,16 @@ build:
   skip: true  # [win or cuda_compiler_version == "12.0"]
   skip: true  # [double == "yes" and cuda_compiler_version != "None"]
 
+  # fails with: /usr/local/cuda/lib64/libcudart_static.a: error adding symbols: file in wrong format
+  skip: true  # [(aarch64 or ppc64le) and double == "no" and cuda_compiler_version != "None"]
+
 requirements:
   build:
     - make
     - {{ compiler('cxx') }}
     - {{ stdlib("c") }}
     - {{ compiler('cuda') }}  # [cuda_compiler_version != "None"]
+    - {{ stdlib("c") }}
     - cmake >=3.18.4
     - pocl
     - python >=3.7
