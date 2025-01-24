@@ -2,7 +2,7 @@
 # For latest release, see
 # https://manual.gromacs.org/documentation/
 {% set name = "gromacs" %}
-{% set version = "2024.4" %}
+{% set version = "2025-rc" %}
 {% set build = 0 %}
 {% set build = build + 100 %}  # [mpi == 'nompi' and double == 'no' and cuda_compiler_version == "None"]
 
