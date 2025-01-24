@@ -12,7 +12,7 @@ package:
 
 source:
   url: https://ftp.gromacs.org/gromacs/gromacs-{{ version }}-rc.tar.gz
-  sha256: ac618ece2e58afa86b536c5a2c4fcb937f0760318f12d18f10346b6bdebd86a8
+  sha256: baba965f852b7c1c139a2cefed7364efb2baf772e457c62e9c2ff8620b427211
 
 build:
   number: {{ build }}
