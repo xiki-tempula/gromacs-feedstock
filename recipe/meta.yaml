@@ -44,7 +44,6 @@ requirements:
     - libgomp  # [linux]
     - llvm-openmp  # [osx]
     - coreutils  # [cuda_compiler_version != "None"]
-    - cuda-version >=12.1  # [cuda_compiler_version != "None"]
   host:
     - ocl-icd  # [linux and cuda_compiler_version == "None"]
     - khronos-opencl-icd-loader  # [osx]
@@ -59,7 +58,6 @@ requirements:
     - libhwloc 2.*
     - {{ mpi }}  # [mpi != 'nompi']
     - __cuda  # [not osx and cuda_compiler_version != "None"]
-    - cuda-version >=12.1  # [not osx and cuda_compiler_version != "None"]
 
 test:
   commands:
