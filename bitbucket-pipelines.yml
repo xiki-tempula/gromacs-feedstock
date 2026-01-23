@@ -15,9 +15,9 @@ definitions:
         export AWS_ROLE_ARN=arn:aws:iam::486666591348:role/terraform-iam-role
 
     - script: &.build-conda-package-mpi-cuda |
-        python build-locally.py 'linux_64_cuda_compiler_version11.2cxx_compiler_version10doublenompiopenmpi'
+        python build-locally.py 'linux_64_cuda_compiler_version12.9doublenompiopenmpi'
     - script: &.build-conda-package-mpi |
-        python build-locally.py 'linux_64_cuda_compiler_versionNonecxx_compiler_version12doublenompiopenmpi'
+        python build-locally.py 'linux_64_cuda_compiler_versionNonedoublenompiopenmpi'
 
     - script: &.deploy-build |
         # Remove the old package first
