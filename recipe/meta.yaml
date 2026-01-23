@@ -13,6 +13,8 @@ package:
 source:
   url: https://ftp.gromacs.org/gromacs/gromacs-{{ version }}.tar.gz
   sha256: 229726f436cc515bfd8c4aa7af3a97b18072f71b5ebd0b08daf6565571e2d9eb
+  patches:
+    - patches/nbfe_gpu.patch
 
 build:
   number: {{ build }}
