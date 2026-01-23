@@ -8,49 +8,111 @@ jobs:
     vmImage: ubuntu-latest
   strategy:
     matrix:
-      linux_64_cuda_compiler_version11.2cxx_compiler_version10doublenompinompi:
-        CONFIG: linux_64_cuda_compiler_version11.2cxx_compiler_version10doublenompinompi
+      linux_64_cuda_compiler_version12.9doublenompinompi:
+        CONFIG: linux_64_cuda_compiler_version12.9doublenompinompi
         UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cuda:11.2
-        SHORT_CONFIG: linux_64_cuda_compiler_version11.2c_h08e077e1a5
-      linux_64_cuda_compiler_version11.2cxx_compiler_version10doublenompiopenmpi:
-        CONFIG: linux_64_cuda_compiler_version11.2cxx_compiler_version10doublenompiopenmpi
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_64_cuda_compiler_version12.9double_h1b05335d
+      linux_64_cuda_compiler_version12.9doublenompiopenmpi:
+        CONFIG: linux_64_cuda_compiler_version12.9doublenompiopenmpi
         UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cuda:11.2
-        SHORT_CONFIG: linux_64_cuda_compiler_version11.2c_hc286db7f86
-      linux_64_cuda_compiler_version11.2cxx_compiler_version10doubleyesmpinompi:
-        CONFIG: linux_64_cuda_compiler_version11.2cxx_compiler_version10doubleyesmpinompi
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_64_cuda_compiler_version12.9double_heba20cfd
+      linux_64_cuda_compiler_version12.9doubleyesmpinompi:
+        CONFIG: linux_64_cuda_compiler_version12.9doubleyesmpinompi
         UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cuda:11.2
-        SHORT_CONFIG: linux_64_cuda_compiler_version11.2c_h04b97e31d7
-      linux_64_cuda_compiler_version11.2cxx_compiler_version10doubleyesmpiopenmpi:
-        CONFIG: linux_64_cuda_compiler_version11.2cxx_compiler_version10doubleyesmpiopenmpi
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_64_cuda_compiler_version12.9double_hac9d6e32
+      linux_64_cuda_compiler_version12.9doubleyesmpiopenmpi:
+        CONFIG: linux_64_cuda_compiler_version12.9doubleyesmpiopenmpi
         UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cuda:11.2
-        SHORT_CONFIG: linux_64_cuda_compiler_version11.2c_h88e194ffa3
-      linux_64_cuda_compiler_versionNonecxx_compiler_version12doublenompinompi:
-        CONFIG: linux_64_cuda_compiler_versionNonecxx_compiler_version12doublenompinompi
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_64_cuda_compiler_version12.9double_h8dbe4377
+      linux_64_cuda_compiler_versionNonedoublenompinompi:
+        CONFIG: linux_64_cuda_compiler_versionNonedoublenompinompi
         UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-        SHORT_CONFIG: linux_64_cuda_compiler_versionNonec_h0e2b640270
-      linux_64_cuda_compiler_versionNonecxx_compiler_version12doublenompiopenmpi:
-        CONFIG: linux_64_cuda_compiler_versionNonecxx_compiler_version12doublenompiopenmpi
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_64_cuda_compiler_versionNonedouble_h82f1e087
+      linux_64_cuda_compiler_versionNonedoublenompiopenmpi:
+        CONFIG: linux_64_cuda_compiler_versionNonedoublenompiopenmpi
         UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-        SHORT_CONFIG: linux_64_cuda_compiler_versionNonec_h1941358e52
-      linux_64_cuda_compiler_versionNonecxx_compiler_version12doubleyesmpinompi:
-        CONFIG: linux_64_cuda_compiler_versionNonecxx_compiler_version12doubleyesmpinompi
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_64_cuda_compiler_versionNonedouble_he6e5ea00
+      linux_64_cuda_compiler_versionNonedoubleyesmpinompi:
+        CONFIG: linux_64_cuda_compiler_versionNonedoubleyesmpinompi
         UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-        SHORT_CONFIG: linux_64_cuda_compiler_versionNonec_he75ce549c2
-      linux_64_cuda_compiler_versionNonecxx_compiler_version12doubleyesmpiopenmpi:
-        CONFIG: linux_64_cuda_compiler_versionNonecxx_compiler_version12doubleyesmpiopenmpi
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_64_cuda_compiler_versionNonedouble_h01b5541d
+      linux_64_cuda_compiler_versionNonedoubleyesmpiopenmpi:
+        CONFIG: linux_64_cuda_compiler_versionNonedoubleyesmpiopenmpi
         UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-        SHORT_CONFIG: linux_64_cuda_compiler_versionNonec_h39ac65a3ab
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_64_cuda_compiler_versionNonedouble_hf4637e03
+      linux_aarch64_cuda_compiler_versionNonedoublenompinompi:
+        CONFIG: linux_aarch64_cuda_compiler_versionNonedoublenompinompi
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_aarch64_cuda_compiler_versionNoned_h46e8d210
+      linux_aarch64_cuda_compiler_versionNonedoublenompiopenmpi:
+        CONFIG: linux_aarch64_cuda_compiler_versionNonedoublenompiopenmpi
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_aarch64_cuda_compiler_versionNoned_ha9eee2f5
+      linux_aarch64_cuda_compiler_versionNonedoubleyesmpinompi:
+        CONFIG: linux_aarch64_cuda_compiler_versionNonedoubleyesmpinompi
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_aarch64_cuda_compiler_versionNoned_hdb37bd4b
+      linux_aarch64_cuda_compiler_versionNonedoubleyesmpiopenmpi:
+        CONFIG: linux_aarch64_cuda_compiler_versionNonedoubleyesmpiopenmpi
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_aarch64_cuda_compiler_versionNoned_h92374387
+      linux_ppc64le_doublenompinompi:
+        CONFIG: linux_ppc64le_doublenompinompi
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_ppc64le_doublenompinompi
+      linux_ppc64le_doublenompiopenmpi:
+        CONFIG: linux_ppc64le_doublenompiopenmpi
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_ppc64le_doublenompiopenmpi
+      linux_ppc64le_doubleyesmpinompi:
+        CONFIG: linux_ppc64le_doubleyesmpinompi
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_ppc64le_doubleyesmpinompi
+      linux_ppc64le_doubleyesmpiopenmpi:
+        CONFIG: linux_ppc64le_doubleyesmpiopenmpi
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+        SHORT_CONFIG: linux_ppc64le_doubleyesmpiopenmpi
   timeoutInMinutes: 360
+  variables: {}
 
   steps:
+  - script: |
+         sudo mkdir -p /opt/empty_dir || true
+         for d in \
+                  /opt/ghc \
+                  /opt/hostedtoolcache \
+                  /usr/lib/jvm \
+                  /usr/local/.ghcup \
+                  /usr/local/lib/android \
+                  /usr/local/share/powershell \
+                  /usr/share/dotnet \
+                  /usr/share/swift \
+                  ; do
+           sudo rsync --stats -a --delete /opt/empty_dir/ $d || true
+         done
+         sudo apt-get purge -y -f firefox \
+                                  google-chrome-stable \
+                                  microsoft-edge-stable
+         sudo apt-get autoremove -y >& /dev/null
+         sudo apt-get autoclean -y >& /dev/null
+         df -h
+    displayName: Manage disk space
   # configure qemu binfmt-misc running.  This allows us to run docker containers
   # embedded qemu-static
   - script: |

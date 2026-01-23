@@ -1,12 +1,22 @@
 #!/bin/bash
 
+set -x
+
 mkdir build
 cd build
 
 if [[ "$HOST" == "arm64-apple-darwin"* ]];
 then
-    # Assume ARM Mac
+    # ARM Mac
     simdflavors=(ARM_NEON_ASIMD)
+elif [[ "${target_platform}" == "linux-aarch64" ]];
+then
+    # ARM Linux
+    simdflavors=(ARM_NEON_ASIMD)
+elif [[ "${target_platform}" == "linux-ppc64le" ]];
+then
+    # PowerPC Linux
+    simdflavors=(IBM_VSX)
 else
     # Assume x86
     simdflavors=(AVX2_256)
@@ -47,7 +57,10 @@ for simdflavor in "${simdflavors[@]}" ; do
       cmake_args+=(-DGMX_DOUBLE=OFF)
   fi
   if [[ "${cuda_compiler_version}" != "None" ]]; then
-      cmake_args+=(-DGMX_GPU=CUDA)
+      cmake_args+=(
+        -DGMX_GPU=CUDA
+        -DCMAKE_CXX_FLAGS="-I$CONDA_PREFIX/include"
+      )
   fi
   if [[ "$(uname)" == 'Darwin' ]] ; then
       # The clang compiler used on MacOS assumes the system libc++ is
@@ -164,10 +177,14 @@ esac
 function _gromacs_bin_dir() {
   local simdflavor
   local uname=\$(uname -m)
-  if [[ "\$uname" == "arm" ]]; then
-    # Assume ARM Mac
-    test -d "${PREFIX}/bin.ARM_NEON_ASIMD" && \
-      simdflavor='ARM_NEON_ASIMD'
+  if [[ ("\$uname" == "arm64" || "\$uname" == "aarch64") && \
+  -d "${PREFIX}/bin.ARM_NEON_ASIMD" ]]; then
+    # Assume ARM Mac/Linux
+    simdflavor='ARM_NEON_ASIMD'
+  elif [[ "\$uname" == "ppc64le" ]]; then
+    # Assume PowerPC Linux
+    test -d "${PREFIX}/bin.IBM_VSX" && \
+      simdflavor='IBM_VSX'
   else
     simdflavor='SSE2'
     case \$( ${hardware_info_command} ) in
@@ -198,20 +215,22 @@ EOF
 { cat <<EOF
 #! /bin/tcsh
 
-setenv uname `uname -m`
-if ( `uname -m` == "arm" && -d "${PREFIX}/bin.ARM_NEON_ASIMD" ) then ) then
+setenv uname_m \`uname -m\`
+if ( ( \$uname_m == "arm64" || \$uname_m == "aarch64") && -d "${PREFIX}/bin.ARM_NEON_ASIMD" ) then
    setenv simdflavor ARM_NEON_ASIMD
+else if ( \$uname_m == "ppc64le" && -d "${PREFIX}/bin.IBM_VSX" ) then
+   setenv simdflavor IBM_VSX
 else
 
-    setenv hwlist `${hardware_info_command}`
+    setenv hwlist \`${hardware_info_command}\`
 
-    if ( `echo \$hwlist | grep -c 'avx512f'` > 0 && -d "${PREFIX}/bin.AVX_512" && `"${PREFIX}/bin.AVX_512/identifyavx512fmaunits" | grep -c 2` > 0 ) then
+    if ( \`echo \$hwlist | grep -c 'avx512f'\` > 0 && -d "${PREFIX}/bin.AVX_512" && \`"${PREFIX}/bin.AVX_512/identifyavx512fmaunits" | grep -c 2\` > 0 ) then
         setenv simdflavor AVX_512
     else 
-        if ( `echo \$hwlist | grep -c avx2` > 0 && -d "${PREFIX}/bin.AVX2_256" ) then
+        if ( \`echo \$hwlist | grep -c avx2\` > 0 && -d "${PREFIX}/bin.AVX2_256" ) then
             setenv simdflavor AVX2_256
         else
-            if ( `echo \$hwlist | grep -c avx` > 0 && -d "${PREFIX}/bin.AVX_256" ) then
+            if ( \`echo \$hwlist | grep -c avx\` > 0 && -d "${PREFIX}/bin.AVX_256" ) then
                 setenv simdflavor AVX_256
             else
                 setenv simdflavor SSE2
